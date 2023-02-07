@@ -1,14 +1,32 @@
 import logo from "./logo.svg";
 import "./App.css";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 function App() {
   const [inputValue, setInputValue] = useState("");
   const [messages, setMessages] = useState([]);
   const [response, setResponse] = useState("");
+  const [modelList, setModelList] = useState(["text-davinci-003"]);
   let text = "";
   let recived = "";
   let messegesList = messages;
+
+  const getModelList = async (e) => {
+    let res = await fetch("http://localhost:3001/models");
+    let data = await res.json();
+    let lst = modelList;
+    for (let model of data.modelNameList) {
+      if (!lst.includes(model)) {
+        lst.push(model);
+      }
+    }
+    setModelList(lst);
+    console.log(modelList);
+  };
+
+  useEffect(() => {
+    getModelList();
+  }, []);
 
   const sentText = async (e) => {
     let res = await fetch("http://localhost:3001/", {
@@ -34,7 +52,7 @@ function App() {
         text += "A:" + message.message + "\n";
       }
     }
-    text += "Q:" + inputValue + "\n";
+    //text += "Q:" + inputValue + "\n";
     console.log("Send Text : " + text);
     await sentText();
   };
