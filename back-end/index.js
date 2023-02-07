@@ -9,10 +9,8 @@ const cors = require("cors");
 const app = express();
 const port = 3001;
 
-const API_KEY = "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";
-
 const configuration = new Configuration({
-  apiKey: "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",
+  apiKey: "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",
 });
 const openai = new OpenAIApi(configuration);
 
