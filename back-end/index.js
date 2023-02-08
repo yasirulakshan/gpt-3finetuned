@@ -8,9 +8,10 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const app = express();
 const port = 3001;
+const fs = require("fs");
 
 const configuration = new Configuration({
-  apiKey: "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",
+  apiKey: process.env.REACT_APP_OPENAI_API_KEY,
 });
 const openai = new OpenAIApi(configuration);
 
@@ -54,6 +55,13 @@ app.get("/models", async (req, res) => {
     console.log(err);
   }
 });
+
+// app.post("/upload", async (req, res) => {
+//   const { file } = req.body;
+//   try {
+//     const response = await openai.createFile(
+//       fs.createReadStream(file.)
+//     )
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);

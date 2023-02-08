@@ -2,6 +2,7 @@ import "./chat.css";
 import React, { useState, useEffect } from "react";
 import Dropdown from "./DropDown";
 import GeneralServices from "../../services/general"
+import { Link } from "react-router-dom/dist";
 
 function Chat() {
     const [inputValue, setInputValue] = useState("");
@@ -43,7 +44,7 @@ function Chat() {
         try {
             const res = await GeneralServices.sendText(text, selectedOption)
             if (res) {
-                let data = await res.json();
+                let data = res.data;
                 setResponse(data.message);
                 recived = data.message;
                 updateMessages();
@@ -112,7 +113,10 @@ function Chat() {
                     setSelectedOption={setSelectedOption}
                     selectedOption={selectedOption}
                 />
-                <button className="fine-tune">YASIRU</button>
+                <Link to="/finetune">
+                    <button className="fine-tune">Fine Tune</button>
+                </Link>
+
             </div>
         </div>
     );
