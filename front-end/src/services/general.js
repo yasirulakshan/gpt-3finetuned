@@ -1,25 +1,67 @@
-import axois from "axios";
+const OpenAI = require("openai");
+const { Configuration, OpenAIApi } = OpenAI;
 import config from "../config";
 
-const API_URL = config.Domain_Name;
+const configuration = new Configuration({
+  apiKey: process.env.REACT_APP_OPENAI_API_KEY,
+});
+
+const openai = new OpenAIApi(configuration);
+
+// const API_URL = config.Domain_Name;
 
 const getModelList = async () => {
-  return axois({
-    method: "GET",
-    url: API_URL + "/models",
-  });
+  try {
+    const response = await openai.listModels();
+    let models = [];
+    for (let model of response.data.data) {
+      if (model.owned_by == "user-amrjmmpu6vbzwbgwsct1txmz") {
+        models.push(model.id);
+      }
+    }
+    return { modelNameList: models };
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 const sendText = async (text, model) => {
-  return axois({
-    method: "POST",
-    url: API_URL + "/",
-    data: {
-      sendText: text,
+  try {
+    const response = await openai.createCompletion({
       model: model,
-    },
-  });
+      prompt: sendText,
+      temperature: 0.7,
+      max_tokens: 20,
+      top_p: 1,
+      frequency_penalty: 0,
+      presence_penalty: 0,
+    });
+    console.log(response.data);
+    if (response.data.choices) {
+      return { message: response.data.choices[0].text };
+    }
+  } catch (error) {
+    console.log(error);
+  }
 };
+
+// const getModelList = async () => {
+//   return axois({
+//     method: "GET",
+//     url: API_URL + "/models",
+//   });
+// };
+
+// const sendText = async (text, model) => {
+//   return axois({
+//     method: "POST",
+//     url: API_URL + "/",
+//     data: {
+//       sendText: text,
+//       model: model,
+//     },
+//   });
+// };
 
 export default {
   getModelList,
