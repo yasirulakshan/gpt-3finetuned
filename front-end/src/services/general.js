@@ -1,9 +1,9 @@
+import config from "../config";
 const OpenAI = require("openai");
 const { Configuration, OpenAIApi } = OpenAI;
-import config from "../config";
 
 const configuration = new Configuration({
-  apiKey: process.env.REACT_APP_OPENAI_API_KEY,
+  apiKey: "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",
 });
 
 const openai = new OpenAIApi(configuration);
@@ -19,7 +19,7 @@ const getModelList = async () => {
         models.push(model.id);
       }
     }
-    return { modelNameList: models };
+    return models;
   } catch (error) {
     console.log(error);
   }
@@ -29,7 +29,7 @@ const sendText = async (text, model) => {
   try {
     const response = await openai.createCompletion({
       model: model,
-      prompt: sendText,
+      prompt: text,
       temperature: 0.7,
       max_tokens: 20,
       top_p: 1,
@@ -38,7 +38,7 @@ const sendText = async (text, model) => {
     });
     console.log(response.data);
     if (response.data.choices) {
-      return { message: response.data.choices[0].text };
+      return response.data.choices[0].text;
     }
   } catch (error) {
     console.log(error);

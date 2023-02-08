@@ -20,38 +20,22 @@ function Chat() {
     }, []);
 
     const getModelList = async (e) => {
-        try {
-            const res = await GeneralServices.getModelList()
-            if (res) {
-                console.log(res.data);
-                let data = res.data;
-                let lst = modelList;
-                for (let model of data.modelNameList) {
-                    if (!lst.includes(model)) {
-                        lst.push(model);
-                    }
-                }
-                setModelList(lst);
-                console.log(modelList);
+        const models = await GeneralServices.getModelList()
+        let lst = modelList;
+        for (let model of models) {
+            if (!lst.includes(model)) {
+                lst.push(model);
             }
-        } catch (error) {
-            console.log(error)
         }
-        //let res = await fetch("http://localhost:3001/models");
+        setModelList(lst);
+        // console.log(lst)
     };
 
     const sentText = async (e) => {
-        try {
-            const res = await GeneralServices.sendText(text, selectedOption)
-            if (res) {
-                let data = res.data;
-                setResponse(data.message);
-                recived = data.message;
-                updateMessages();
-            }
-        } catch (error) {
-            console.log(error)
-        }
+        const answer = await GeneralServices.sendText(text, selectedOption)
+        setResponse(answer);
+        recived = answer;
+        updateMessages();
     };
 
     const makeSendText = (e) => {
@@ -86,7 +70,7 @@ function Chat() {
 
         messegesList.push({ user: "chatbot", message: refineAnswer });
         setMessages(messegesList);
-        console.log("Response : " + recived);
+        // console.log("Response : " + recived);
     };
 
     return (
