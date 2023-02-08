@@ -10,7 +10,7 @@ const app = express();
 const port = 3001;
 
 const configuration = new Configuration({
-  apiKey: "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",
+  apiKey: "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",
 });
 const openai = new OpenAIApi(configuration);
 
@@ -18,11 +18,11 @@ app.use(bodyParser.json());
 app.use(cors());
 
 app.post("/", async (req, res) => {
-  const { sendText } = req.body;
+  const { sendText, model } = req.body;
   console.log(req.body);
   try {
     const response = await openai.createCompletion({
-      model: "text-davinci-003",
+      model: model,
       prompt: sendText,
       temperature: 0.7,
       max_tokens: 20,
@@ -50,6 +50,7 @@ app.get("/models", async (req, res) => {
     }
     res.json({ modelNameList: models });
   } catch (err) {
+    console.log("Model Getting Error");
     console.log(err);
   }
 });
