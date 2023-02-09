@@ -31,7 +31,10 @@ function Chat() {
     };
 
     const sentText = async (e) => {
-        const answer = await GeneralServices.sendText(text, selectedOption)
+        const answer = await GeneralServices.sendText(text, selectedOption);
+        const url = await GeneralServices.generateSpeech(answer);
+        console.log("URL : " + url);
+        
         setResponse(answer);
         recived = answer;
         updateMessages();
