@@ -1,3 +1,4 @@
 {
-  "Domain_Name": "http://localhost:3001"
+  "Domain_Name": "http://localhost:3001",
+  "OpenAI_API_Key": "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"
 }

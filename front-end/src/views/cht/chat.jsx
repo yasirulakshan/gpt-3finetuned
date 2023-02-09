@@ -21,6 +21,7 @@ function Chat() {
 
     const getModelList = async (e) => {
         const models = await GeneralServices.getModelList()
+        console.log(models)
         let lst = modelList;
         for (let model of models) {
             if (!lst.includes(model)) {

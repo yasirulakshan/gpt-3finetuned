@@ -3,7 +3,7 @@ const OpenAI = require("openai");
 const { Configuration, OpenAIApi } = OpenAI;
 
 const configuration = new Configuration({
-  apiKey: "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",
+  apiKey: config.OpenAI_API_Key,
 });
 
 const openai = new OpenAIApi(configuration);
@@ -13,6 +13,7 @@ const openai = new OpenAIApi(configuration);
 const getModelList = async () => {
   try {
     const response = await openai.listModels();
+    console.log(response.data);
     let models = [];
     for (let model of response.data.data) {
       if (model.owned_by == "user-amrjmmpu6vbzwbgwsct1txmz") {
