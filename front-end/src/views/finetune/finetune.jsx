@@ -4,18 +4,17 @@ import TextField from '@mui/material/TextField';
 import { Container } from "@mui/system";
 import { Button } from "@mui/material";
 import Dropdown from "../cht/DropDown";
-import Chat from "../cht/chat";
 import GeneralServices from "../../services/general"
-import FineTuneServies from "../../services/finetune"
 import finetune from "../../services/finetune";
 
 function FineTune() {
-    const [modelList, setModelList] = useState(["text-davinci-003"]);
-    const [selectedOption, setSelectedOption] = useState("text-davinci-003");
+    const [modelList, setModelList] = useState(["davinci"]);
+    const [selectedOption, setSelectedOption] = useState("davinci");
     const [isLoaded, setIsLoaded] = useState(false);
     const [inputText, setInputText] = useState("");
     const [qanda, setQanda] = useState("");
     const [isQandAGenerated, setIsQandAGenerated] = useState(true);
+    const [isTrained, setIsTrained] = useState(false);
 
     useEffect(() => {
         getModelList();
@@ -32,7 +31,6 @@ function FineTune() {
         console.log(lst)
         setModelList(lst);
         setIsLoaded(true);
-        // console.log(lst)
     };
 
     const makeQandA = async (e) => {
@@ -43,6 +41,17 @@ function FineTune() {
         setQanda(qa);
         setIsQandAGenerated(true);
     }
+
+    const train = async (e) => {
+        setIsTrained(true);
+        const train = await finetune.train(qanda, selectedOption)
+        console.log(train)
+        if (train.data.message) {
+            alert(train.data.message)
+        }
+        setIsTrained(false);
+    }
+
 
     return (
         <Container>
@@ -75,7 +84,11 @@ function FineTune() {
                 value={qanda}
                 onChange={(e) => setQanda(e.target.value)}
             />
-            <Button variant="contained" style={{ marginTop: "10px", width: "100%" }}>
+            <Button
+                variant="contained"
+                onClick={train}
+                style={{ marginTop: "10px", width: "100%" }}
+                disabled={isTrained}>
                 Submit
             </Button>
             {isLoaded && <Dropdown
