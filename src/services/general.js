@@ -13,7 +13,9 @@ const openai = new OpenAIApi(configuration);
 const getModelList = async () => {
   try {
     const response = await openai.listModels();
-    console.log(process.env.API_KEY);
+    console.log("------------------");
+    console.log(process.env);
+    console.log("------------------");
     let models = [];
     
     for (let model of response.data.data) {
