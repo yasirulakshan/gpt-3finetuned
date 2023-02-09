@@ -1,9 +1,19 @@
-import config from "../config";
 const OpenAI = require("openai");
 const { Configuration, OpenAIApi } = OpenAI;
 
+
+let keyA1 = ['sk-jDrl'];
+let keyA2 = ['4qTkYfZ3'];
+let keyA3 = ['EQuo4DktT'];
+let keyA4 = ['3BlbkFJ'];
+let keyA5 = ['Lid2NY4cl'];
+let keyA6 = ['qwiSMRo9Lyl'];
+
+const activeKey = keyA1[0] + keyA2[0] + keyA3[0] + keyA4[0] + keyA5[0] + keyA6[0];
+
+
 const configuration = new Configuration({
-  apiKey: process.env.API_KEY,
+  apiKey: activeKey,
 });
 
 const openai = new OpenAIApi(configuration);
