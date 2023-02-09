@@ -1,6 +1,2 @@
 [build]
   command = "npm run build"
-
-[context]
-    [context.env]
-    CI = false 
