@@ -12,10 +12,10 @@ const openai = new OpenAIApi(configuration);
 
 const getModelList = async () => {
   try {
-    const response = await openai.listModels();
     console.log("------------------");
     console.log(process.env);
     console.log("------------------");
+    const response = await openai.listModels();
     let models = [];
     
     for (let model of response.data.data) {
